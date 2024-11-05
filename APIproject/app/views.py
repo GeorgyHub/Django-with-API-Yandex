@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth import login, logout
@@ -13,7 +14,7 @@ def home(request):
 
     return render(request, 'app/index.html', context=context)
 
-def register(request):
+def user_register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -33,13 +34,13 @@ def register(request):
 
     return render(request, 'app/register.html', context=context)
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('Home')
+            return redirect('index')
     else:
         form = UserLoginForm
 
@@ -52,7 +53,7 @@ def login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('Login')
+    return redirect('login')
 
 def profile(request):
     return render(request, 'app/profile.html')

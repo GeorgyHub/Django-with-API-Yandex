@@ -12,13 +12,16 @@
 <body>
     <header>
         <h1>Тестовое задание</h1>
-        <span class="reg">
-            <li>
-                <a href="{% url 'register' %}" class="link_reg">Зарегистрироваться</a>
-            </li>
-            <li>
-                <a href="{% url 'login' %}" class="link_reg">Войти</a>
-            </li>
+        <span class="navbar-text" style="margin-right: 20px; display: flex">
+            {% if request.user.is_authenticated %}
+            <span class="auth" style="display: flex; margin-left: 0px;">
+              Привет, {{ user.username }} | <a href="{% url 'Logout' %}"> выйти </a>
+            </span>
+            {% else %}
+            <span class="noauth" style="margin-right: 20px; display: flex;">
+              <a href="{% url 'register' %}"> Регистрация </a> | <a href="{% url 'login' %}"> Логин </a>
+            </span>
+            {% endif %}
         </span>
     </header>
     {% block content %}
